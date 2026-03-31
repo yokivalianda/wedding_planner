@@ -29,6 +29,7 @@ export const useAppStore = create((set, get) => ({
     user: null, session: null,
     wedding: null,
     budgetItems: [], guests: [], checklistItems: [], seserahanItems: [],
+    engagementItems: [], preweddingItems: [], adminDocs: [], weddingBudgetItems: [],
   }),
 
   // ─── Wedding ──────────────────────────────────────────────
@@ -79,6 +80,22 @@ export const useAppStore = create((set, get) => ({
     })),
   removeSeserahanItem: (id) =>
     set((s) => ({ seserahanItems: s.seserahanItems.filter((i) => i.id !== id) })),
+
+  // ─── Engagement ───────────────────────────────────────────────────────────────
+  engagementItems: [],
+  setEngagementItems: (engagementItems) => set({ engagementItems }),
+
+  // ─── Pre-Wedding ──────────────────────────────────────────────────────────────
+  preweddingItems: [],
+  setPreweddingItems: (preweddingItems) => set({ preweddingItems }),
+
+  // ─── Admin Documents ──────────────────────────────────────────────────────────
+  adminDocs: [],
+  setAdminDocs: (adminDocs) => set({ adminDocs }),
+
+  // ─── Wedding Budget ───────────────────────────────────────────────────────────
+  weddingBudgetItems: [],
+  setWeddingBudgetItems: (weddingBudgetItems) => set({ weddingBudgetItems }),
 
   // ─── Theme ────────────────────────────────────────────────────────────────────
   theme: getInitialTheme(),

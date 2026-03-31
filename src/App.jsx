@@ -4,15 +4,19 @@ import { supabase, getOrCreateWedding } from './lib/supabase'
 import { useAppStore } from './store'
 import { Heart } from 'lucide-react'
 
-import LandingPage    from './pages/LandingPage'
-import AuthPage       from './pages/AuthPage'
-import DashboardPage  from './pages/DashboardPage'
-import BudgetPage     from './pages/BudgetPage'
-import GuestsPage     from './pages/GuestsPage'
-import ChecklistPage  from './pages/ChecklistPage'
-import SettingsPage   from './pages/SettingsPage'
-import SeserahanPage  from './pages/SeserahanPage'
-import AppLayout      from './components/layout/AppLayout'
+import LandingPage        from './pages/LandingPage'
+import AuthPage           from './pages/AuthPage'
+import DashboardPage      from './pages/DashboardPage'
+import BudgetPage         from './pages/BudgetPage'
+import GuestsPage         from './pages/GuestsPage'
+import ChecklistPage      from './pages/ChecklistPage'
+import SettingsPage       from './pages/SettingsPage'
+import SeserahanPage      from './pages/SeserahanPage'
+import EngagementPage     from './pages/EngagementPage'
+import PreWeddingPage     from './pages/PreWeddingPage'
+import AdminPage          from './pages/AdminPage'
+import WeddingBudgetPage  from './pages/WeddingBudgetPage'
+import AppLayout          from './components/layout/AppLayout'
 
 function ProtectedRoute({ children, initializing }) {
   const user = useAppStore(s => s.user)
@@ -108,7 +112,11 @@ export default function App() {
         <Route path="guests"     element={<GuestsPage />} />
         <Route path="checklist"  element={<ChecklistPage />} />
         <Route path="seserahan"  element={<SeserahanPage />} />
-        <Route path="settings"   element={<SettingsPage />} />
+        <Route path="settings"      element={<SettingsPage />} />
+        <Route path="engagement"    element={<EngagementPage />} />
+        <Route path="prewedding"    element={<PreWeddingPage />} />
+        <Route path="administrasi"  element={<AdminPage />} />
+        <Route path="wedding-budget" element={<WeddingBudgetPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

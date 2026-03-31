@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Wallet, Users, CheckSquare, Settings, LogOut, Heart, Menu, X, Gift } from 'lucide-react'
+import { LayoutDashboard, Wallet, Users, CheckSquare, Settings, LogOut, Heart, Menu, X, Gift, Camera, FileText, BookOpen } from 'lucide-react'
 import { signOut } from '../../lib/supabase'
 import { useAppStore } from '../../store'
 import ThemeToggle from '../ui/ThemeToggle'
 import toast from 'react-hot-toast'
 
 const navItems = [
-  { to: '/',           icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/budget',     icon: Wallet,          label: 'Budget' },
-  { to: '/guests',     icon: Users,           label: 'Tamu' },
-  { to: '/checklist',  icon: CheckSquare,     label: 'Checklist' },
-  { to: '/seserahan',  icon: Gift,            label: 'Seserahan' },
-  { to: '/settings',   icon: Settings,        label: 'Pengaturan' },
+  { to: '/',                icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/budget',          icon: Wallet,          label: 'Budget',          group: 'Pernikahan' },
+  { to: '/guests',          icon: Users,           label: 'Tamu',            group: 'Pernikahan' },
+  { to: '/checklist',       icon: CheckSquare,     label: 'Checklist',       group: 'Pernikahan' },
+  { to: '/seserahan',       icon: Gift,            label: 'Seserahan',       group: 'Pernikahan' },
+  { to: '/engagement',      icon: BookOpen,        label: 'Engagement',      group: 'Tambahan' },
+  { to: '/prewedding',      icon: Camera,          label: 'Pre-Wedding',     group: 'Tambahan' },
+  { to: '/administrasi',    icon: FileText,        label: 'Administrasi',    group: 'Tambahan' },
+  { to: '/wedding-budget',  icon: Wallet,          label: 'Budget Wedding',  group: 'Tambahan' },
+  { to: '/settings',        icon: Settings,        label: 'Pengaturan' },
 ]
 
 function useIsMobile() {
@@ -77,21 +81,32 @@ function DesktopLayout({ navItems, wedding, user, initials, daysLeft, handleSign
         <div className="divider" style={{ margin: '0 0 0.75rem' }} />
 
         {/* Nav */}
-        <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-          {navItems.map(({ to, icon: Icon, label }) => (
-            <NavLink key={to} to={to} end={to === '/'} style={({ isActive }) => ({
-              display: 'flex', alignItems: 'center', gap: '0.75rem',
-              padding: '0.65rem 0.875rem', borderRadius: 'var(--radius-md)',
-              textDecoration: 'none', fontSize: '0.875rem',
-              fontWeight: isActive ? '500' : '400',
-              color: isActive ? 'var(--gold)' : 'var(--text-secondary)',
-              background: isActive ? 'var(--accent-bg)' : 'transparent',
-              border: isActive ? '1px solid var(--border)' : '1px solid transparent',
-              transition: 'all var(--duration) var(--ease)',
-            })}>
-              {({ isActive }) => <><Icon size={16} strokeWidth={isActive ? 2 : 1.5} />{label}</>}
-            </NavLink>
-          ))}
+        <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.15rem', overflowY: 'auto' }}>
+          {navItems.map(({ to, icon: Icon, label, group }, idx) => {
+            const prevGroup = idx > 0 ? navItems[idx - 1].group : undefined
+            const showGroupLabel = group && group !== prevGroup
+            return (
+              <div key={to}>
+                {showGroupLabel && (
+                  <p style={{ fontSize: '0.62rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-faint)', padding: '0.6rem 0.875rem 0.15rem', marginTop: idx > 1 ? '0.2rem' : 0 }}>
+                    {group}
+                  </p>
+                )}
+                <NavLink to={to} end={to === '/'} style={({ isActive }) => ({
+                  display: 'flex', alignItems: 'center', gap: '0.75rem',
+                  padding: '0.62rem 0.875rem', borderRadius: 'var(--radius-md)',
+                  textDecoration: 'none', fontSize: '0.875rem',
+                  fontWeight: isActive ? '500' : '400',
+                  color: isActive ? 'var(--gold)' : 'var(--text-secondary)',
+                  background: isActive ? 'var(--accent-bg)' : 'transparent',
+                  border: isActive ? '1px solid var(--border)' : '1px solid transparent',
+                  transition: 'all var(--duration) var(--ease)',
+                })}>
+                  {({ isActive }) => <><Icon size={16} strokeWidth={isActive ? 2 : 1.5} />{label}</>}
+                </NavLink>
+              </div>
+            )
+          })}
         </nav>
 
         {/* Countdown */}
@@ -212,8 +227,17 @@ function MobileLayout({ navItems, wedding, user, initials, daysLeft, drawerOpen,
             <button onClick={() => setDrawerOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><X size={18} /></button>
           </div>
           <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-            {navItems.map(({ to, icon: Icon, label }) => (
-              <NavLink key={to} to={to} end={to === '/'} onClick={() => setDrawerOpen(false)} style={({ isActive }) => ({
+            {navItems.map(({ to, icon: Icon, label, group }, idx) => {
+              const prevGroup = idx > 0 ? navItems[idx - 1].group : undefined
+              const showGroupLabel = group && group !== prevGroup
+              return (
+              <div key={to}>
+                {showGroupLabel && (
+                  <p style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-faint)', padding: '0.5rem 0.875rem 0.1rem', marginTop: idx > 1 ? '0.2rem' : 0 }}>
+                    {group}
+                  </p>
+                )}
+              <NavLink to={to} end={to === '/'} onClick={() => setDrawerOpen(false)} style={({ isActive }) => ({
                 display: 'flex', alignItems: 'center', gap: '0.75rem',
                 padding: '0.75rem 0.875rem', borderRadius: 'var(--radius-md)',
                 textDecoration: 'none', fontSize: '0.9rem',
@@ -223,7 +247,8 @@ function MobileLayout({ navItems, wedding, user, initials, daysLeft, drawerOpen,
               })}>
                 {({ isActive }) => <><Icon size={17} strokeWidth={isActive ? 2 : 1.5} />{label}</>}
               </NavLink>
-            ))}
+              </div>
+            )})}
           </nav>
           <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{
@@ -253,7 +278,7 @@ function MobileLayout({ navItems, wedding, user, initials, daysLeft, drawerOpen,
         paddingBottom: 'env(safe-area-inset-bottom)',
         transition: 'background-color 0.35s',
       }}>
-        {navItems.map(({ to, icon: Icon, label }) => (
+        {navItems.filter(n => !n.group || ['Dashboard', 'Budget', 'Tamu', 'Checklist', 'Seserahan'].includes(n.label)).slice(0,5).map(({ to, icon: Icon, label }) => (
           <NavLink key={to} to={to} end={to === '/'} style={({ isActive }) => ({
             flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             gap: '0.2rem', padding: '0.75rem 0', textDecoration: 'none',
