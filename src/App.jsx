@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { supabase, getOrCreateWedding } from './lib/supabase'
 import { useAppStore } from './store'
@@ -13,7 +13,6 @@ import ChecklistPage  from './pages/ChecklistPage'
 import SettingsPage   from './pages/SettingsPage'
 import SeserahanPage  from './pages/SeserahanPage'
 import AppLayout      from './components/layout/AppLayout'
-import { useEffect } from 'react'
 
 function ProtectedRoute({ children, initializing }) {
   const user = useAppStore(s => s.user)
@@ -50,37 +49,49 @@ function AuthLoader() {
 
 export default function App() {
   const { setSession, setWedding, clearAll } = useAppStore()
+  // initializing = true until we know whether the user has a session or not
   const [initializing, setInitializing] = useState(true)
 
   useEffect(() => {
-    // Use ONLY onAuthStateChange as the single source of truth for auth state.
-    // It fires INITIAL_SESSION immediately on registration (from cached storage),
-    // then SIGNED_IN when user logs in, and SIGNED_OUT when logged out.
-    // TOKEN_REFRESHED is intentionally ignored — it does not change user identity
-    // and calling getOrCreateWedding on it caused race conditions with user writes.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
+    let mounted = true
+
+    // ── Fast path: read session from localStorage (no network round-trip) ──
+    // setInitializing(false) happens here so the loader is never blocked
+    // by a slow network call to getOrCreateWedding.
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!mounted) return
+      setSession(session)
+      setInitializing(false)               // ← done, we know logged-in status
+      if (session?.user) {
+        getOrCreateWedding(session.user.id) // loads in background
+          .then(w => { if (mounted) setWedding(w) })
+          .catch(console.error)
+      }
+    })
+
+    // ── Auth event listener ──────────────────────────────────────────────
+    // SIGNED_IN  → new login (form submit)
+    // SIGNED_OUT → logout button, expired session
+    // TOKEN_REFRESHED, INITIAL_SESSION, USER_UPDATED → ignored to prevent
+    //   getOrCreateWedding being called repeatedly and racing with user writes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!mounted) return
+      if (event === 'SIGNED_IN') {
         setSession(session)
         if (session?.user) {
-          try {
-            const wedding = await getOrCreateWedding(session.user.id)
-            setWedding(wedding)
-          } catch (err) {
-            console.error('Failed to load wedding:', err)
-          }
-        }
-        // Mark initialization complete after INITIAL_SESSION resolves
-        if (event === 'INITIAL_SESSION') {
-          setInitializing(false)
+          getOrCreateWedding(session.user.id)
+            .then(w => { if (mounted) setWedding(w) })
+            .catch(console.error)
         }
       } else if (event === 'SIGNED_OUT') {
         clearAll()
-        setInitializing(false)
       }
-      // TOKEN_REFRESHED, USER_UPDATED → do nothing
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
   }, [])
 
   return (
