@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { supabase, getOrCreateWedding } from './lib/supabase'
 import { useAppStore } from './store'
@@ -13,6 +13,7 @@ import ChecklistPage  from './pages/ChecklistPage'
 import SettingsPage   from './pages/SettingsPage'
 import SeserahanPage  from './pages/SeserahanPage'
 import AppLayout      from './components/layout/AppLayout'
+import { useEffect } from 'react'
 
 function ProtectedRoute({ children, initializing }) {
   const user = useAppStore(s => s.user)
@@ -52,35 +53,31 @@ export default function App() {
   const [initializing, setInitializing] = useState(true)
 
   useEffect(() => {
-    // ── Step 1: Restore session on mount ────────────────────────
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      if (session?.user) {
-        getOrCreateWedding(session.user.id)
-          .then(setWedding)
-          .catch(console.error)
-          .finally(() => setInitializing(false))
-      } else {
-        setInitializing(false)
-      }
-    })
-
-    // ── Step 2: Listen to auth changes ──────────────────────────
-    // IMPORTANT: We only act on SIGNED_IN / INITIAL_SESSION / SIGNED_OUT.
-    // TOKEN_REFRESHED must be ignored — it fires silently every hour and
-    // triggering getOrCreateWedding during it causes unnecessary re-fetches
-    // that race with in-flight user operations, making data appear to vanish.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
+    // Use ONLY onAuthStateChange as the single source of truth for auth state.
+    // It fires INITIAL_SESSION immediately on registration (from cached storage),
+    // then SIGNED_IN when user logs in, and SIGNED_OUT when logged out.
+    // TOKEN_REFRESHED is intentionally ignored — it does not change user identity
+    // and calling getOrCreateWedding on it caused race conditions with user writes.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
         setSession(session)
         if (session?.user) {
-          getOrCreateWedding(session.user.id).then(setWedding).catch(console.error)
+          try {
+            const wedding = await getOrCreateWedding(session.user.id)
+            setWedding(wedding)
+          } catch (err) {
+            console.error('Failed to load wedding:', err)
+          }
+        }
+        // Mark initialization complete after INITIAL_SESSION resolves
+        if (event === 'INITIAL_SESSION') {
+          setInitializing(false)
         }
       } else if (event === 'SIGNED_OUT') {
-        setSession(null)
         clearAll()
+        setInitializing(false)
       }
-      // TOKEN_REFRESHED, USER_UPDATED, etc. → do nothing to avoid disrupting app state
+      // TOKEN_REFRESHED, USER_UPDATED → do nothing
     })
 
     return () => subscription.unsubscribe()

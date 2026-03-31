@@ -13,16 +13,11 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!wedding?.id) return
-    // Only fetch if we don't already have data in the store.
-    // This prevents re-fetching (and overwriting) data the user just added
-    // when navigating back to the Dashboard.
-    if (budgetItems.length === 0)
-      getBudgetItems(wedding.id).then(setBudgetItems).catch(console.error)
-    if (guests.length === 0)
-      getGuests(wedding.id).then(setGuests).catch(console.error)
-    if (checklistItems.length === 0)
-      getChecklistItems(wedding.id).then(setChecklistItems).catch(console.error)
+    getBudgetItems(wedding.id).then(setBudgetItems).catch(console.error)
+    getGuests(wedding.id).then(setGuests).catch(console.error)
+    getChecklistItems(wedding.id).then(setChecklistItems).catch(console.error)
   }, [wedding?.id])
+
 
   // Stats
   const totalBudget   = wedding?.budget_total || 0
