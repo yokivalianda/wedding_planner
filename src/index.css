@@ -76,38 +76,40 @@
 
 /* ─── Light Theme ─────────────────────────────────────────── */
 [data-theme="light"] {
-  --bg-primary:     #F9F6F1;
-  --bg-secondary:   #FFFFFF;
-  --bg-card:        #FFFFFF;
-  --bg-elevated:    #F0EBE3;
-  --bg-input:       #F5F1EB;
-  --bg-input-hover: #FFFDF9;
-  --bg-hover:       rgba(201,169,110,0.04);
-  --bg-overlay:     rgba(0,0,0,0.4);
+  /* Background: warm taupe/linen tones — tidak menyilaukan, nyaman di mata */
+  --bg-primary:     #E8E2DA;
+  --bg-secondary:   #EDE8E1;
+  --bg-card:        #EAE5DD;
+  --bg-elevated:    #DDD7CE;
+  --bg-input:       #E2DDD5;
+  --bg-input-hover: #EAE5DD;
+  --bg-hover:       rgba(201,169,110,0.06);
+  --bg-overlay:     rgba(30,25,20,0.45);
 
-  --text-primary:   #1A1510;
-  --text-secondary: #5C554A;
-  --text-muted:     #8A8279;
-  --text-faint:     #B0A89E;
+  /* Text: coklat tua yang kontrasnya cukup tapi tidak tajam */
+  --text-primary:   #2C2620;
+  --text-secondary: #5A5148;
+  --text-muted:     #887E74;
+  --text-faint:     #ADA49A;
   --text-icon:      #8A8279;
 
-  --border:         rgba(201,169,110,0.2);
-  --border-light:   rgba(201,169,110,0.1);
-  --border-hover:   rgba(201,169,110,0.45);
-  --border-input:   #D9D2C7;
+  --border:         rgba(160,135,100,0.25);
+  --border-light:   rgba(160,135,100,0.14);
+  --border-hover:   rgba(201,169,110,0.5);
+  --border-input:   rgba(160,135,100,0.3);
 
-  --accent-bg:      rgba(201,169,110,0.1);
-  --accent-bg-hover: rgba(201,169,110,0.15);
+  --accent-bg:      rgba(201,169,110,0.12);
+  --accent-bg-hover: rgba(201,169,110,0.2);
   --gold-glow:      rgba(201,169,110,0.2);
-  --rose-bg:        rgba(193,127,127,0.1);
-  --sage-bg:        rgba(122,158,126,0.1);
+  --rose-bg:        rgba(193,127,127,0.12);
+  --sage-bg:        rgba(122,158,126,0.12);
 
-  --shadow-sm:  0 1px 3px rgba(0,0,0,0.06);
-  --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
-  --shadow-lg:  0 8px 32px rgba(0,0,0,0.1);
-  --shadow-gold: 0 4px 20px rgba(201,169,110,0.15);
+  --shadow-sm:  0 1px 3px rgba(40,30,20,0.08);
+  --shadow-md:  0 4px 16px rgba(40,30,20,0.1);
+  --shadow-lg:  0 8px 32px rgba(40,30,20,0.12);
+  --shadow-gold: 0 4px 20px rgba(201,169,110,0.18);
 
-  --scrollbar-thumb: #D9D2C7;
+  --scrollbar-thumb: #C8C0B4;
   --selection-bg:    var(--gold);
   --selection-text:  #FFFFFF;
 }
