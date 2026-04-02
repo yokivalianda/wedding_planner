@@ -86,12 +86,12 @@
   --bg-hover:       rgba(201,169,110,0.06);
   --bg-overlay:     rgba(30,25,20,0.45);
 
-  /* Text: coklat tua yang kontrasnya cukup tapi tidak tajam */
-  --text-primary:   #2C2620;
-  --text-secondary: #5A5148;
-  --text-muted:     #887E74;
-  --text-faint:     #ADA49A;
-  --text-icon:      #8A8279;
+  /* Text: medium-brown, kontras soft — tidak menusuk mata */
+  --text-primary:   #4A4038;
+  --text-secondary: #6E6358;
+  --text-muted:     #998F85;
+  --text-faint:     #B8AFA6;
+  --text-icon:      #9E9590;
 
   --border:         rgba(160,135,100,0.25);
   --border-light:   rgba(160,135,100,0.14);
