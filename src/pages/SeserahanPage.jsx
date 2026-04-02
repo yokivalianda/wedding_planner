@@ -554,7 +554,7 @@ function SeserahanModal({ item, onSave, onClose, loading }) {
 
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal" style={{ maxWidth: 520 }}>
+      <div className="modal" style={{ maxWidth: 520, width: "100%" }}>
 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -626,7 +626,7 @@ function SeserahanModal({ item, onSave, onClose, loading }) {
           </div>
 
           {/* Name & Category */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
             <FormField label="Nama Seserahan">
               <input className="input" placeholder="cth: Gelang emas 10gr" value={form.name} onChange={set('name')} required autoFocus />
             </FormField>

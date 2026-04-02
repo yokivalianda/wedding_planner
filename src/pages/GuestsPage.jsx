@@ -84,7 +84,7 @@ export default function GuestsPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
         <div>
           <p style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--gold)', marginBottom: '0.4rem' }}>Manajemen</p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontStyle: 'italic', color: 'var(--ivory)' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontStyle: 'italic', color: 'var(--text-primary)' }}>
             Daftar Tamu
           </h1>
         </div>
@@ -108,14 +108,14 @@ export default function GuestsPage() {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
         {[
-          { label: 'Total Undangan', val: stats.total, color: 'var(--ivory)' },
+          { label: 'Total Undangan', val: stats.total, color: 'var(--text-primary)' },
           { label: 'Hadir', val: stats.hadir, color: 'var(--sage)' },
           { label: 'Tidak Hadir', val: stats.tidak, color: 'var(--rose)' },
           { label: 'Menunggu Konfirmasi', val: stats.pending, color: 'var(--gold)' },
         ].map(({ label, val, color }) => (
           <div key={label} className="card" style={{ padding: '1.25rem', textAlign: 'center' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontSize: '2.25rem', color, fontWeight: 500 }}>{val}</p>
-            <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(250,247,242,0.4)' }}>{label}</p>
+            <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>{label}</p>
           </div>
         ))}
       </div>
@@ -123,7 +123,7 @@ export default function GuestsPage() {
       {/* Search & Filter */}
       <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
         <div style={{ position: 'relative', flex: 1, minWidth: 200 }}>
-          <Search size={15} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'rgba(201,169,110,0.5)' }} />
+          <Search size={15} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-faint)' }} />
           <input
             className="input"
             style={{ paddingLeft: '2.5rem' }}
@@ -152,11 +152,11 @@ export default function GuestsPage() {
             display: 'grid',
             gridTemplateColumns: '1fr 140px 140px 130px 90px',
             padding: '0.625rem 1.5rem',
-            background: 'rgba(255,255,255,0.02)',
-            borderBottom: '1px solid rgba(201,169,110,0.1)',
+            background: 'var(--bg-hover)',
+            borderBottom: '1px solid var(--border-light)',
           }}>
             {['Nama', 'Pihak', 'Kategori', 'RSVP', ''].map(h => (
-              <span key={h} style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.07em', color: 'rgba(250,247,242,0.3)' }}>{h}</span>
+              <span key={h} style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.07em', color: 'var(--text-muted)' }}>{h}</span>
             ))}
           </div>
 
@@ -167,29 +167,29 @@ export default function GuestsPage() {
                 display: 'grid',
                 gridTemplateColumns: '1fr 140px 140px 130px 90px',
                 padding: '0.875rem 1.5rem',
-                borderBottom: '1px solid rgba(201,169,110,0.06)',
+                borderBottom: '1px solid var(--border-light)',
                 alignItems: 'center',
                 transition: 'background var(--duration)',
               }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
+                onMouseEnter={e => e.currentTarget.style.background = 'var(--bg-hover)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
               >
                 <div>
-                  <p style={{ fontSize: '0.9rem', color: 'var(--ivory)', fontWeight: 400 }}>{guest.name}</p>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 400 }}>{guest.name}</p>
                   <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.15rem' }}>
                     {guest.phone && (
-                      <span style={{ fontSize: '0.72rem', color: 'rgba(250,247,242,0.35)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-faint)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                         <Phone size={10} /> {guest.phone}
                       </span>
                     )}
                     {guest.table_no && (
-                      <span style={{ fontSize: '0.72rem', color: 'rgba(201,169,110,0.5)' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-faint)' }}>
                         Meja {guest.table_no}
                       </span>
                     )}
                   </div>
                 </div>
-                <span style={{ fontSize: '0.8rem', color: 'rgba(250,247,242,0.5)' }}>{guest.side}</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{guest.side}</span>
                 <span className="badge badge-muted" style={{ fontSize: '0.72rem', width: 'fit-content' }}>
                   {guest.category}
                 </span>
@@ -208,22 +208,22 @@ export default function GuestsPage() {
                     fontFamily: 'var(--font-body)',
                   }}
                 >
-                  {RSVP_OPTIONS.map(o => <option key={o.value} value={o.value} style={{ background: 'var(--ink-muted)', color: 'var(--ivory)' }}>{o.label}</option>)}
+                  {RSVP_OPTIONS.map(o => <option key={o.value} value={o.value} style={{ background: 'var(--ink-muted)', color: 'var(--text-primary)' }}>{o.label}</option>)}
                 </select>
                 <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'flex-end' }}>
                   <button
                     className="btn"
                     onClick={() => { setEditGuest(guest); setShowModal(true) }}
-                    style={{ background: 'none', border: 'none', padding: '0.25rem 0.5rem', color: 'rgba(250,247,242,0.4)' }}
+                    style={{ background: 'none', border: 'none', padding: '0.25rem 0.5rem', color: 'var(--text-muted)' }}
                     onMouseEnter={e => e.currentTarget.style.color = 'var(--gold)'}
-                    onMouseLeave={e => e.currentTarget.style.color = 'rgba(250,247,242,0.4)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
                   ><Edit3 size={14} /></button>
                   <button
                     className="btn"
                     onClick={() => handleDelete(guest.id)}
-                    style={{ background: 'none', border: 'none', padding: '0.25rem 0.5rem', color: 'rgba(250,247,242,0.3)' }}
+                    style={{ background: 'none', border: 'none', padding: '0.25rem 0.5rem', color: 'var(--text-muted)' }}
                     onMouseEnter={e => e.currentTarget.style.color = 'var(--rose)'}
-                    onMouseLeave={e => e.currentTarget.style.color = 'rgba(250,247,242,0.3)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-faint)'}
                   ><Trash2 size={14} /></button>
                 </div>
               </div>
@@ -231,8 +231,8 @@ export default function GuestsPage() {
           })}
 
           {/* Footer count */}
-          <div style={{ padding: '0.75rem 1.5rem', borderTop: '1px solid rgba(201,169,110,0.08)' }}>
-            <span style={{ fontSize: '0.75rem', color: 'rgba(250,247,242,0.3)' }}>
+          <div style={{ padding: '0.75rem 1.5rem', borderTop: '1px solid var(--border-light)' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
               Menampilkan {filtered.length} dari {guests.length} tamu
             </span>
           </div>
@@ -272,19 +272,17 @@ function GuestModal({ guest, onSave, onClose, loading }) {
           <h2 className="modal-title" style={{ margin: 0 }}>
             {guest ? 'Edit Data Tamu' : 'Tambah Tamu'}
           </h2>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(250,247,242,0.4)' }}>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
             <X size={20} />
           </button>
         </div>
 
         <form onSubmit={e => { e.preventDefault(); onSave(form) }} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <FormField label="Nama Lengkap" colSpan={2}>
-              <input className="input" placeholder="Nama tamu" value={form.name} onChange={set('name')} required style={{ gridColumn: 'span 2' }} />
-            </FormField>
-          </div>
+          <FormField label="Nama Lengkap">
+            <input className="input" placeholder="Nama tamu" value={form.name} onChange={set('name')} required />
+          </FormField>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
             <FormField label="No. Telepon">
               <input className="input" placeholder="+62..." value={form.phone} onChange={set('phone')} />
             </FormField>
@@ -333,7 +331,7 @@ function GuestModal({ guest, onSave, onClose, loading }) {
 function FormField({ label, children }) {
   return (
     <div>
-      <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'rgba(250,247,242,0.45)', marginBottom: '0.375rem' }}>
+      <label style={{ display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: '0.375rem' }}>
         {label}
       </label>
       {children}
@@ -347,7 +345,7 @@ function EmptyState({ hasGuests, onAdd }) {
       <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: '1.5rem', color: 'var(--gold-light)', marginBottom: '0.5rem' }}>
         {hasGuests ? 'Tidak ada tamu yang sesuai filter' : 'Belum ada daftar tamu'}
       </p>
-      <p style={{ fontSize: '0.875rem', color: 'rgba(250,247,242,0.35)', marginBottom: '1.5rem' }}>
+      <p style={{ fontSize: '0.875rem', color: 'var(--text-faint)', marginBottom: '1.5rem' }}>
         {hasGuests ? 'Coba ubah filter pencarianmu' : 'Mulai tambahkan nama-nama tamu spesialmu'}
       </p>
       {!hasGuests && (

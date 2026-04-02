@@ -6,7 +6,13 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
+      workbox: {
+        skipWaiting: false,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
+        runtimeCaching: []
+      },
       manifest: {
         name: 'Wedding Planner',
         short_name: 'WedPlan',
